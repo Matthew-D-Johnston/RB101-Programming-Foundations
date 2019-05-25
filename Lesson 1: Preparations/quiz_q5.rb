@@ -24,9 +24,8 @@ def string_lengths(sentence)
   end
 end
 
-p string_lengths("hello")                # => [5] (Correct)
-p string_lengths("How are you today?")   # => [3, 3, 3, 6] (Correct, with similar qualification as above)
-
+p string_lengths("hello")                # => ["hello"] (Incorrect)
+p string_lengths("How are you today?")   # => ["How", "are", "you", "today?"] (Incorrect)
 
 # C.
 
@@ -44,7 +43,7 @@ def string_lengths(sentence)
 end
 
 p string_lengths("hello")                # => [5] (Correct)
-p string_lengths("How are you today?")   # => [3, 3, 3, 6] (Correct, with similar qualification as above)
+p string_lengths("How are you today?")   # => [3, 3, 3, 6] (Correct, with similar qualification as in 'A')
 
 
 # D.
@@ -63,8 +62,9 @@ def string_lengths(sentence)
   lengths
 end
 
-p string_lengths("hello")                # => [5] (Correct)
-p string_lengths("How are you today?")   # => [3, 3, 3, 6] (Correct, with similar qualification as above)
+p string_lengths("hello")                # => [] (Incorrect)
+p string_lengths("How are you today?")   # => [3, 3, 3] (Incorrect)
+
 
 
 
