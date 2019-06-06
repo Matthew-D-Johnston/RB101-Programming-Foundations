@@ -16,11 +16,11 @@ Finally, print out some message indicating that the sum of the two values is equ
 
 Formal pseudo-code:
 
-START by asking the user to input an integer value.  
-GET the input from user and SET it by giving it a variable name.  
-DEFINE a method that READs the two variable values, and adds them together.  
-PRINT the result to the screen.
-END
+`START` by asking the user to input an integer value.  
+`GET` the input from user and `SET` it by giving it a variable name.  
+`DEFINE` a method that READs the two variable values, and adds them together.  
+`PRINT` the result to the screen.  
+`END`
 ---
 ## 2) Method that takes an Array of Strings and Returns a Concatenated String
 
@@ -32,12 +32,26 @@ Return the single string and print it to the screen.
 
 Formal pseudo-code:
 
-START with a method definition whose argument is an array and which will:  
-GET an array inputted by the user.
-READ the array input by the user, and collect each element of the array.
-SET the collected elements as a single string separated by a space by assigning them to a single variable.  
-PRINT the value of the assigned variable.  
-END  
+`START` with a method definition whose argument is an array and which will:  
+`GET` an array inputted by the user.  
+`READ` the array input by the user, and collect each element of the array.  
+`SET` the collected elements as a single string separated by a space by assigning them to a single variable.  
+`PRINT` the value of the assigned variable.  
+`END`  
 ---
 ## 3) Method that takes an Array of Integers and Returns a New Array with Every Other Element
+
+Pseudo-code:
+
+Define a method that takes an array of integers.  
+Then, select only those elements of the array whose index is even, thus skipping every other element.  
+Finally, return those elements in a new array object.  
+
+Formal pseudo-code:
+
+`START` with a method definition that takes an array as an argument.  
+`READ` the array, use the `#select` method to extract only the elements whose index is even.  
+`SET` the newly created array to a new variable.
+`PRINT` the newly created variable.
+
 
