@@ -21,6 +21,7 @@ Formal pseudo-code:
 `DEFINE` a method that READs the two variable values, and adds them together.  
 `PRINT` the result to the screen.  
 `END`
+
 ---
 ## 2) Method that takes an Array of Strings and Returns a Concatenated String
 
@@ -38,6 +39,7 @@ Formal pseudo-code:
 `SET` the collected elements as a single string separated by a space by assigning them to a single variable.  
 `PRINT` the value of the assigned variable.  
 `END`  
+
 ---
 ## 3) Method that takes an Array of Integers and Returns a New Array with Every Other Element
 
@@ -51,7 +53,7 @@ Formal pseudo-code:
 
 `START` with a method definition that takes an array as an argument.  
 `READ` the array, use the `#select` method to extract only the elements whose index is even.  
-`SET` the newly created array to a new variable.
+`SET` the newly created array to a new variable.  
 `PRINT` the newly created variable.
 
 
