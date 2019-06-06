@@ -22,17 +22,78 @@
 # PRINT the hash object to the screen
 # END
 
-vehicles = [ 'car', 'car', 'truck', 'car', 'SUV', 'truck', 'motorcycle',
-             'motorcycle', 'car', 'truck']
+
 
 def count_occurrences(array)
-  uniq_arr = array.uniq
-  uniq_arr.each do |vehicle|
-    a = array.map { |i| i == vehicle }
-    b = a.select { |i| i == true }
-    p c = vehicle.to_sym => b.length
+  uniq_arr = array.uniq                             # => ['car', 'truck', 'SUV', 'motorcycle']
+  
+  uniq_arr.each do |element|                        # 
+    bool_arr = array.map { |i| i == element }        # new array of boolean values
+    only_true = bool_arr.select { |i| i == true }    # new array that selects only the `true` values
+    puts "#{element} => #{only_true.length}"        # prints each element with => and matches with length of arrays of only 'true' values
+  end
+
+end
+
+
+vehicles = [ 
+  'car', 'car', 'truck', 'car', 'SUV', 'truck',
+  'motorcycle', 'motorcycle', 'car', 'truck'
+]
+
+count_occurrences(vehicles)
+
+puts "----------"
+
+names = ['Bobby', 'Matty', 'Matty', 'Joey', 'Bobby', 'Sally',
+          'Sally', 'Sally', 'Heidi', 'Bobby', 'Bobby', 'Charlie',
+          'Charlie', 'Bobby']
+
+count_occurrences(names)
+
+puts "-------"
+
+
+# Launch School solution:
+
+def count_occurrences(array)
+  occurrences = {}                                  # creates an empty hash
+
+  array.each do |element|
+    occurrences[element] = array.count(element)     # stores each element of the array as the  
+  end                                               # occurrence hash key and pairs it with the 
+                                                    # number of times the element occurs in the array
+
+occurrences.each do |element, count|
+    puts "#{element} => #{count}"
   end
 end
+
+
+count_occurrences(vehicles)
+
+puts "------"
+
+# Further Exploration:
+# Try to solve the problem when words are case insensitive, e.g. "suv" == "SUV".
+
+def count_occurrences(array)
+  array.each { |i| i.downcase! }
+  uniq_arr = array.uniq                             # => ['car', 'truck', 'SUV', 'motorcycle']
+  
+  uniq_arr.each do |element|                        # 
+    bool_arr = array.map { |i| i == element }        # new array of boolean values
+    only_true = bool_arr.select { |i| i == true }    # new array that selects only the `true` values
+    puts "#{element} => #{only_true.length}"        # prints each element with => and matches with length of arrays of only 'true' values
+  end
+
+end
+
+
+vehicles = [ 
+  'car', 'car', 'truck', 'car', 'SUV', 'truck',
+  'motorcycle', 'motorcycle', 'car', 'truck', 'suv'
+]
 
 count_occurrences(vehicles)
 
