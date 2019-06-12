@@ -48,7 +48,7 @@ end
 # Where `integer?` was defined in the previous example as,
 
 def integer?(input)
-  integer.to_i.to_s == input
+  input.to_i.to_s == input
 end
 
 # So, all we need to do is implement a `float?` method.
