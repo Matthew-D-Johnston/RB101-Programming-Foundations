@@ -23,12 +23,10 @@ end
 prompt('Welcome to the Mortgage / Car Loan Calculator.')
 
 loop do # main loop
-
   loan = ''
   loop do # sub-loop 1 (loan)
     prompt('Please enter the loan amount:')
-    loan = gets.chomp.tr_s(',', '')        # `tr_s` method replaces ',' with ''
-
+    loan = gets.chomp.tr_s(',', '') # `tr_s` method replaces ',' with ''
     if valid_number?(loan)
       loan = loan.to_f.round
       break
@@ -40,7 +38,7 @@ loop do # main loop
   apr = ''
   loop do # sub-loop 2: (apr)
     prompt('Please enter the annual percentage interest rate (APR):')
-    apr = gets.chomp.tr_s(',', '')         # `tr_s` method replaces ',' with ''
+    apr = gets.chomp.tr_s(',', '') # `tr_s` method replaces ',' with ''
 
     if valid_number?(apr)
       apr = apr.to_f.round(2)
@@ -52,9 +50,9 @@ loop do # main loop
 
   duration_y = ''
   loop do # sub-loop 3: (duration_y)
-    prompt('Please enter the loan duration in number of years ' +
+    prompt('Please enter the loan duration in number of years ' \
            '(fractions of a year will be rounded to nearest full year):')
-    duration_y = gets.chomp.tr_s(',', '')  # `tr_s` method replaces ',' with ''
+    duration_y = gets.chomp.tr_s(',', '') # `tr_s` method replaces ',' with ''
 
     if valid_number?(duration_y)
       duration_y = duration_y.to_f.round
@@ -69,24 +67,24 @@ loop do # main loop
   duration_m = duration_y * 12
 
   # final calculations
-  m = loan * (mpr / (1 - (1 + mpr) ** (-duration_m)))
-  m = '%.2f' % m   # ensures `m` is stored to two decimal places.
+  m = loan * (mpr / (1 - (1 + mpr)**-duration_m))
+  m = format('%.2f', m) # ensures `m` is stored to two decimal places.
   m = m.to_s
 
-  counter = 7 
+  counter = 7
   while m.length >= counter       # while loop ensures commas separate every
     m = m.insert(-counter, ',')   # three digits.
     counter += 4
   end
 
   # result
-  puts "Your monthly loan payment is $#{m}"  
+  puts "Your monthly loan payment is $#{m}"
 
   # final message
-  prompt ('Would you like to do another loan calculation? (Y or N)')
+  prompt('Would you like to do another loan calculation? (Y or N)')
   response = gets.chomp
 
   break if response.downcase == 'n'
 end
 
-prompt('Thank you for using the Mortgage / Car Loan Calculator. Good bye!')
+prompt'Thank you for using the Mortgage / Car Loan Calculator. Good bye!'
