@@ -1,4 +1,4 @@
-VALID_CHOICES = ['rock', 'paper', 'scissors']
+VALID_CHOICES = %w(rock paper scissors)
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -15,6 +15,7 @@ def display_results(player, computer)
     prompt("Computer won!")
   else
     prompt("It's a tie!")
+  end
 end
 
 loop do
