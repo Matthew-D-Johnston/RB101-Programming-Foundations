@@ -26,6 +26,5 @@ puts name, save_name
 # The `upcase!` method permanently mutates the object referenced by both `name`
 # and `save_name`. Thus, even though the method was only called on the `name`
 # variable, because it mutate the object and changed the value associated with
-# that object, the `save_name` variable will also print out 'Bob!'
+# that object, the `save_name` variable will also print out 'BOB'.
 
- 
