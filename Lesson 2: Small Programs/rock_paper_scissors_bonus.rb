@@ -102,10 +102,48 @@ loop do
   end
 
   computer_choice = VALID_CHOICES.sample
-
+  puts ''
   prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
+  winners_choice = ''
+  losers_choice = ''
+  if win?(choice, computer_choice)
+    winners_choice = choice
+    losers_choice = computer_choice
+  elsif win?(computer_choice, choice)
+    winners_choice = computer_choice
+    losers_choice = choice
+  else
+    winners_choice = choice
+    losers_choice = winners_choice
+  end
+
+  action = if winners_choice == 'scissors' && losers_choice == 'paper'
+             'cuts'
+           elsif winners_choice == 'paper' && losers_choice == 'rock'
+             'covers'
+           elsif winners_choice == 'rock' && (losers_choice == 'lizard' ||
+                                     losers_choice == 'scissors')
+             'crushes'
+           elsif winners_choice == 'lizard' && losers_choice == 'spock'
+             'poisons'
+           elsif winners_choice == 'spock' && losers_choice == 'scissors'
+             'smashes'
+           elsif winners_choice == 'scissors' && losers_choice == 'lizard'
+             'decapitates'
+           elsif winners_choice == 'lizard' && losers_choice == 'paper'
+             'eats'
+           elsif winners_choice == 'paper' && losers_choice == 'spock'
+             'disproves'
+           elsif winners_choice == 'spock' && losers_choice == 'rock'
+             'vaporizes'
+           else
+             'equals'
+           end
+
+  prompt("#{winners_choice.capitalize} #{action} #{losers_choice.capitalize}")
   display_results(choice, computer_choice)
+  puts ''
 
   if win?(choice, computer_choice)
     total_wins[:user] += 1
@@ -115,8 +153,15 @@ loop do
     total_wins
   end
 
-  next unless total_wins[:user] == 5 || total_wins[:comp] == 5
+  prompt("Current score:")
+  prompt("You: #{total_wins[:user]}; Computer: #{total_wins[:comp]}")
+  unless total_wins[:user] == 5 || total_wins[:comp] == 5
+    prompt("First one to five is the champion!")
+    puts ''
+    next
+  end
 
+  puts ''
   if total_wins[:user] == 5
     prompt("You won five matches! You are the champion!")
   else
@@ -126,6 +171,7 @@ loop do
   prompt("Do you want to play again?")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
+  total_wins = { user: 0, comp: 0 }
 end
 
 prompt("Thank you for playing. Good bye!")
