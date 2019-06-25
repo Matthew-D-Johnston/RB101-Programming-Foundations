@@ -2,7 +2,8 @@ Lesson 3: Practice Problems
 ===========================
 ## Practice Problems: Easy 1
 -----------------------------
-**Question 1:**  
+**Question 1:**
+---------------
 What would you expect the code below to print out?  
 ```ruby
 numbers = [1, 2, 2, 3]
@@ -15,11 +16,13 @@ puts numbers
 2  
 2  
 3  
-The `uniq` method is not a destructive method, meaning it does not mutate the caller.  
+The `uniq` method is not a destructive method, meaning it does not mutate the caller. 
+
 **Launch School Solution:**  
 Correct. Also, had the last line been `p numbers` instead, the output would have been `[1, 2, 2, 3]` because the `p` method automatically calls `inspect` on its agrument, which gives a different formatting on the output. Furthermore, we could have also done `puts numbers.inspect` and the output would have been the same as using the `p` method.
 
-**Question 2:**  
+**Question 2:**
+---------------
 Describe the difference between `!` and `?` in Ruby. And explain what would happen in the following scenarios:  
 1. what is `!=` and where should you use it?
 2. put `!` before something, like `!user_name`
@@ -27,7 +30,8 @@ Describe the difference between `!` and `?` in Ruby. And explain what would happ
 4. put `?` before something
 5. put `?` after something
 6. put `!!` before something, like `!!user_name`
-**My Response:**  
+
+**My Response:**   
 The `!` is used to permanently mutate a Ruby object. It can be appended to a method call so that it mutates the caller of the method. The `?` is appended to certain methods, which will return a boolean object; it can also be used in the 'ternary operator', where it also evaluates to a boolean; when prepending a single character (e.g. 5 or j), it will return a `String` version of that character.  
 1. `!=` is the 'not equal to' comparison operator. It is used to compare equivalence of two Ruby objects, returning `true` if the two objects are not equal and `false` if the two objects are equal.
 2. `!` is a 'not' or 'negation' operator whenever it is placed in front of, or prepending, a Ruby object. `!true` returns `false` and `!false` returns `true`. For many Ruby objects, which are 'truthy', it will return `false` when it prepends them. Of course, `!nil` returns `true`. In the case of `!user_name`, if `user_name` is undefined then an error message will be returned. However, if `user_name` is a variable name that is assigned to one of Ruby's 'truthy' objects then it will return `false`. If it is assigned to `false` or `nil`, it will return `true`. 
@@ -36,7 +40,8 @@ The `!` is used to permanently mutate a Ruby object. It can be appended to a met
 5. `?` appends certain method calls which return a boolean value. For example, if the `include?` method is called on a `String` or an `Array` object it will check to see if the argument that was supplied is _included_ within the object in question, returning `true` if it is _included_ and `false` otherwise. In the 'ternary' operator, `?` follows the initial condition that is being evaluated.
 6. `!!` is a double negation operator, returning a boolean. For example, `!!true` returns `true`, whereas `!!false` and `!!nil` return `false`. For Ruby's 'truthy' objects prependend by `!!`, the return value will be `true`. For `user_name` acting as a defined variable name, `!!user_name` will return `true`; if `user_name` is undefined, then `!!user_name` will simply return an error message.
 
-**Question 3:**  
+**Question 3:**
+---------------
 Replace the word "important" with "urgent" in this string:  
 ```ruby
 advice = "Few things in life are as important as house training your pet dinosaur."
@@ -55,7 +60,8 @@ puts rejoin_words
 advice.gsub!('important', 'urgent')
 ```
 
-**Question 4:**  
+**Question 4:**
+---------------
 The Ruby Array class has several methods for removing items from the array. Two of them have very similar names. Let's see how they differ:  
 ```ruby
 numbers = [1, 2, 3, 4, 5]
@@ -73,9 +79,11 @@ numbers.delete(1)         # deletes the value 1, which is at index 0.
 ```
 My initial guess was proven to be correct.  
 
-**Question 5:**  
+**Question 5:**
+--------------- 
 Programmatically determine if 42 lies between 10 and 100.  
 _hint: Use Ruby's range object in your solution._  
+
 **My Response:**  
 ```ruby
 (10..100).include?(42)    # => true
@@ -85,7 +93,8 @@ _hint: Use Ruby's range object in your solution._
 (10..100).cover?(42)      # => true
 ```
 
-**Question 6:**  
+**Question 6:**
+---------------
 Starting with the string:  
 ```ruby
 famous_words = "seven years ago..."
@@ -102,7 +111,8 @@ They have the two I did plus one extra:
 famous_words.prepend("Four score and ")
 ```
 
-**Question 7:**  
+**Question 7:**
+---------------
 Fun with gsub:  
 ```ruby
 def add_eight(number)
@@ -125,12 +135,15 @@ If we take advantage of Ruby's `Kernel#eval` method to have it execute this stri
 eval(how_deep)
 ```
 what will be the result?  
+
 **My Response:**  
 The result will be `42`.  
+
 **Launch School's Result:**  
 `42`  
 
-**Question 8:**  
+**Question 8:**
+--------------- 
 If we build an array like this:  
 ```ruby
 flintstones = ["Fred", "Wilma"]
@@ -142,6 +155,7 @@ We will end up with this "nested" array:
 ["Fred", "Wilma", ["Barney", "Betty"], ["BamBam", "Pebbles"]]
 ```
 Make this into an un-nested array.  
+
 **My Response:**  
 ```ruby
 flintstones.flatten
@@ -151,12 +165,14 @@ flintstones.flatten
 flintstones.flatten!
 ```
 
-**Question 9:**  
+**Question 9:**
+---------------
 Given the hash below  
 ```ruby
 flintstones = { "Fred" => 0, "Wilma" => 1, "Barney" => 2, "Betty" => 3, "BamBam" => 4, "Pebbles" => 5 }
 ```
-Turn this into an array containing only two elements: Barney's name and Barney's number.  
+Turn this into an array containing only two elements: Barney's name and Barney's number. 
+ 
 **My Response:**  
 ```ruby
 flintstones = flintstones.select { |k, v| k == "Barney" }.flatten # => ["Barney", 2]
