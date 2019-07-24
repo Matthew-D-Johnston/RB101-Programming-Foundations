@@ -64,9 +64,26 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
+# def computer_places_piece!(brd)
+#   square = empty_squares(brd).sample
+#   brd[square] = COMPUTER_MARKER
+# end
+
+# Modified computer_places_piece! method:
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
-  brd[square] = COMPUTER_MARKER
+  if ai_defense_needed?(brd)
+    WINNING_LINES.each do |line|
+      if brd.values_at(*line).count(PLAYER_MARKER) == 2 && \
+         brd.values_at(*line).count(INITIAL_MARKER) == 1
+        brd[line[brd.values_at(*line).index(' ')]] = 'O'
+        break
+      end
+    end
+  else
+    square = empty_squares(brd).sample
+    brd[square] = COMPUTER_MARKER
+  end
 end
 
 def board_full?(brd)
@@ -100,32 +117,61 @@ def joinor(list, punctuation = ', ', last_word = 'or')
   end
 end
 
+def ai_defense_needed?(brd)
+  threats = WINNING_LINES.map do |line|
+              brd.values_at(*line).count(PLAYER_MARKER) == 2 && \
+              brd.values_at(*line).count(INITIAL_MARKER) == 1
+            end
+  threats.include?(true)
+end
 
 # Main Loop:
 
 loop do
-  board = initialize_board
-  display_board(board)
+  player_score = 0
+  computer_score = 0
 
   loop do
+    board = initialize_board
     display_board(board)
 
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+    loop do
+      display_board(board)
 
-    computer_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+      player_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+
+      computer_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+    end
+
+    display_board(board)
+
+    if someone_won?(board)
+      prompt "#{detect_winner(board)} won the game!"
+    else
+      prompt "It's a tie!"
+    end
+
+    # Update Score
+    player_score += 1 if detect_winner(board) == 'Player'
+    computer_score += 1 if detect_winner(board) == 'Computer'
+    prompt "Player: #{player_score}; Computer: #{computer_score}"
+
+    if player_score == 5
+      prompt "Player won the match!"
+      break
+    elsif computer_score == 5
+      prompt "Computer won the match!"
+      break
+    end
+
+    prompt "First to 5 wins the match. Continue the match? (y or n)"
+    answer = gets.chomp
+    break unless answer.downcase.start_with?('y')
   end
 
-  display_board(board)
-
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
-  end
-
-  prompt "Play again? (y or n)"
+  prompt "Play another match? (y or n)"
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
