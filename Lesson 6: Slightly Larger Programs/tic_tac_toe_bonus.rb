@@ -11,12 +11,15 @@
 # 9. If yes, go to #1.
 # 10. Good bye!
 
+require 'pry'
+
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
                 [[1, 5, 9], [3, 5, 7]]              # diagonals
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
+FIRST_TURN = ["player", "computer", "choose"]
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -71,20 +74,36 @@ end
 
 # Modified computer_places_piece! method:
 
+# rubocop:disable Metrics/LineLength
+# rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+
 def computer_places_piece!(brd)
-  if ai_defense_needed?(brd)
+  if ai_needed?(brd, COMPUTER_MARKER)
     WINNING_LINES.each do |line|
-      if brd.values_at(*line).count(PLAYER_MARKER) == 2 && \
+      if brd.values_at(*line).count(COMPUTER_MARKER) == 2 && \
          brd.values_at(*line).count(INITIAL_MARKER) == 1
-        brd[line[brd.values_at(*line).index(' ')]] = 'O'
+        brd[line[brd.values_at(*line).index(INITIAL_MARKER)]] = COMPUTER_MARKER
         break
       end
     end
+  elsif ai_needed?(brd, PLAYER_MARKER)
+    WINNING_LINES.each do |line|
+      if brd.values_at(*line).count(PLAYER_MARKER) == 2 && \
+         brd.values_at(*line).count(INITIAL_MARKER) == 1
+        brd[line[brd.values_at(*line).index(INITIAL_MARKER)]] = COMPUTER_MARKER
+        break
+      end
+    end
+  elsif square_five_available?(brd)
+    brd[5] = COMPUTER_MARKER
   else
     square = empty_squares(brd).sample
     brd[square] = COMPUTER_MARKER
   end
 end
+
+# rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+# rubocop:enable Metrics/LineLength
 
 def board_full?(brd)
   empty_squares(brd).empty?
@@ -117,12 +136,28 @@ def joinor(list, punctuation = ', ', last_word = 'or')
   end
 end
 
-def ai_defense_needed?(brd)
-  threats = WINNING_LINES.map do |line|
-              brd.values_at(*line).count(PLAYER_MARKER) == 2 && \
-              brd.values_at(*line).count(INITIAL_MARKER) == 1
-            end
-  threats.include?(true)
+def ai_needed?(brd, marker)
+  potential_wins = WINNING_LINES.map do |line|
+    brd.values_at(*line).count(marker) == 2 && \
+      brd.values_at(*line).count(INITIAL_MARKER) == 1
+  end
+  potential_wins.include?(true)
+end
+
+def square_five_available?(brd)
+  brd[5] == INITIAL_MARKER
+end
+
+def place_piece!(board, current_player)
+  if current_player == 'player'
+    player_places_piece!(board)
+  else
+    computer_places_piece!(board)
+  end
+end
+
+def alternate_player(current_player)
+  current_player == 'player' ? 'computer' : 'player'
 end
 
 # Main Loop:
@@ -134,14 +169,18 @@ loop do
   loop do
     board = initialize_board
     display_board(board)
+    current_player = FIRST_TURN[0] # toggle: 0 (play), 1 (comp) or 2 (choice)
+
+    if current_player == 'choose'
+      prompt "Choose who will go first (p for player or c for computer)."
+      choice = gets.chomp.downcase
+      choice == 'p' ? current_player = 'player' : current_player = 'computer'
+    end
 
     loop do
       display_board(board)
-
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-
-      computer_places_piece!(board)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
 
