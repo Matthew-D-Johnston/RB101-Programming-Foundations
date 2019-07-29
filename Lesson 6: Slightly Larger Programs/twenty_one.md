@@ -109,14 +109,6 @@ def deal_card(deck)
   end
 end
 ```
-_Player's Turn_
-1. Prompt the player to "hit" or "stay".
-2. if the player "hit's", deal another card with the `deal_card` method.
-* check the hand to see if the player busted or not.
-* count ace's value as 11 unless bust, in which case count as 1.
-* if busted, the game is over.
-* if not, loop back to prompt the player to "hit" or "stay" again.
-3. Thus, we need a prompt method and a check-if-busted method.
 
 _Prompt method_
 ```ruby
@@ -125,20 +117,7 @@ def prompt(message)
 end
 ```
 
-_Ace In Hand? method_
-1. check to see if the an ace is being held.
-2. iterate through the hand to check for an ace.
-```ruby
-def ace_in_hand?(hand)
-  !hand.select { |card| card[0] == 'ace' }.empty?
-end
-```
-
 _Add Card Values method_
-1. def add_card_values(hand, ace_value = 0) (ace_value = 0 will add 1, while ace_value = 1 will add 11)
-2. iterate over the arrays within the hand.
-* if array[0] == 'ace', then add array[1][0 or 1]
-* else, add array[1]
 ```ruby
 def add_card_values(hand)
   total_value = 0
@@ -157,12 +136,111 @@ def add_card_values(hand)
 end
 ```
 
+_Display Hand method_
+1. This method will display the hand of either the player or the dealer, no matter how many cards are held.
+Data Structure:
+input: an array (e.g. `players_hand = [['5', 5], ['10', 10], ['jack', 10]]`)
+output: printed string displaying the first element of each nested array in a message like the following: "Player's hand: 5, 10, and jack"  
 
-_Busted? method_
-1. Add up the values of the player's hand, which will be an array with nested arrays.
-2. Each nested array contains the card (a string) and a value (an integer); however, if the card is an ace, there will be two potential values nested within
-another array. When first adding the value, count the ace's value as 11
-3. If the total of the player's hand is more than 21, check to see if the player holds an ace. If the player holds an ace, add the values with the ace equal to 1.
-4. If less than or equal to 21, the method returns false.
-5. 
+Algorithm:
+* `def display_hand(hand, player)`
+* select the first elements of each array: cards = hand.map { |card| card.first }
+* if player = 'player', puts "Player's hand: #{cards[0..-2].join(', ')} and #{cards.last}"
+* else, if player = 'dealer', puts "Dealer's hand: #{cards[1..-1].join(', ')} and unknown card"
+```ruby
+def display_hand(hand, player)
+  cards = hand.map(&:first)
+
+  if player == 'player'
+    prompt("Player's hand: #{cards[0..-2].join(', ')} and #{cards.last}")
+  else
+    prompt("Dealer's hand: #{cards[1..-1].join(', ')} and unknown card")
+  end
+end
+```
+
+_Start of Game_
+1. print "Welcome to Twenty-One!"
+2. Hit the "Enter button" to begin.
+3. Display hands:
+* Player (i.e. you) has a .... and ....
+* Dealer (i.e. computer) has a ... and an unknown card
+```ruby
+prompt("Welcome to Twenty-One!")
+prompt("Hit the 'Enter' button to deal the cards.")
+gets.chomp
+
+players_hand = []
+dealers_hand = []
+
+2.times do
+  players_hand << deal_card(card_deck)
+  dealers_hand << deal_card(card_deck)
+end
+
+prompt("Player's hand: #{players_hand[0][1]} and #{players_hand[1][1]}")
+prompt("Dealer's hand: #{dealers_hand[0][1]} and unknown card")
+```
+
+_Player's Turn_
+1. Ask player to "hit" or "stay".
+2. If "hit", deal another card.
+3. else, move to dealer's turn
+4. Use `add_card_values` method to add up the value of the player's cards.
+5. Display player's hand.
+6. If the value is greater than 21, then print "Busted. Player loses."
+7. If the value is less than or equal to 21, loop back to ask player to hit
+```ruby
+prompt("Player's turn:")
+loop do
+  prompt("Hit or Stay (type h for Hit or s for Stay)")
+  choice = gets.chomp
+  if choice == 'h'
+    players_hand << deal_card(card_deck)
+    display_hand(players_hand, 'player')
+    add_card_values(players_hand) > 21 ? prompt("Busted. Player loses") : next
+  else
+    break
+  end
+end
+```
+
+_Dealer's Turn_
+1. continue to hit while the total value of the dealer's cards is less than 17:
+```ruby
+while add_card_values(dealers_hand) < 17
+  prompt("Dealer hits")
+  dealers_hand << deal_card(card_deck)
+  display_hand(dealers_hand, 'dealer')
+end
+
+if add_card_values(dealers_hand) > 21
+  prompt("Dealer busts. Player wins!")
+else
+  display_hand(players_hand, 'player')
+  display_hand(dealers_hand, 'dealer')
+end
+```
+
+_Declaring the Winner_
+```ruby
+play_points = add_card_values(players_hand)
+deal_points = add_card_values(dealers_hand)
+if play_points > deal_points
+  prompt("Player has #{play_points}; Dealer has #{deal_points}.")
+  prompt("Player wins!")
+elsif play_points < deal_points
+  prompt("Player has #{play_points}; Dealer has #{deal_points}.")
+  prompt("Dealer wins!")
+else
+  prompt("Player has #{play_points}; Dealer has #{deal_points}.")
+  prompt("It's a tie!")
+end
+```
+
+
+
+
+
+
 
