@@ -48,6 +48,7 @@ def max_rotation(integer)
     integer = rotate_rightmost_digits(integer, digits_counter)
     digits_counter -= 1
   end
+  
   integer
 end
 
