@@ -1,7 +1,6 @@
 # twenty_one.rb
 
-# Deck of Cards
-
+# Methods
 def prompt(message)
   puts "=> #{message}"
 end
@@ -46,6 +45,7 @@ def display_hand(hand, scenario)
   end
 end
 
+# Start of Game
 loop do
   card_deck = { '2' => [2, 2, 2, 2], '3' => [3, 3, 3, 3],
                 '4' => [4, 4, 4, 4], '5' => [5, 5, 5, 5],
