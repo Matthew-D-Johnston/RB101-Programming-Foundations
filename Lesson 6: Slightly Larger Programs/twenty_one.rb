@@ -10,6 +10,10 @@ card_deck = { '2' => [2, 2, 2, 2], '3' => [3, 3, 3, 3],
          'queen' => [10, 10, 10, 10], 'king' => [10, 10, 10, 10],
          'ace' => [[1, 11], [1, 11], [1, 11], [1, 11]] }
 
+def prompt(message)
+  "=> #{message}"
+end
+
 def deal_card(deck)
   remaining_cards = deck.select { |_, value| !value.empty? }
   card = remaining_cards.keys.sample
@@ -21,3 +25,18 @@ def deal_card(deck)
   end
 end
 
+def add_card_values(hand)
+  total_value = 0
+
+  hand.each do |card|
+    total_value += card[0] == 'ace' ? 11 : card[1]
+  end
+
+  number_of_aces = hand.count { |card| card[0] == 'ace' }
+  while total_value > 21 && number_of_aces > 0
+    total_value -= 10
+    number_of_aces -= 1
+  end
+
+  total_value
+end

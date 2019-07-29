@@ -99,13 +99,70 @@ _Dealing Method_
 3. Here is the method I have come up with:
 ```ruby
 def deal_card(deck)
-  remaining_cards = deck.select { |card, value| !value.empty? }
+  remaining_cards = deck.select { |_, value| !value.empty? }
   card = remaining_cards.keys.sample
-  if card == nil
+  if card.nil?
     puts "Deck is empty."
   else
-    value = deck[card].pop if deck[card] != nil
+    value = deck[card].pop if !deck[card].nil?
     [card, value]
   end
 end
 ```
+_Player's Turn_
+1. Prompt the player to "hit" or "stay".
+2. if the player "hit's", deal another card with the `deal_card` method.
+* check the hand to see if the player busted or not.
+* count ace's value as 11 unless bust, in which case count as 1.
+* if busted, the game is over.
+* if not, loop back to prompt the player to "hit" or "stay" again.
+3. Thus, we need a prompt method and a check-if-busted method.
+
+_Prompt method_
+```ruby
+def prompt(message)
+  "=> #{message}"
+end
+```
+
+_Ace In Hand? method_
+1. check to see if the an ace is being held.
+2. iterate through the hand to check for an ace.
+```ruby
+def ace_in_hand?(hand)
+  !hand.select { |card| card[0] == 'ace' }.empty?
+end
+```
+
+_Add Card Values method_
+1. def add_card_values(hand, ace_value = 0) (ace_value = 0 will add 1, while ace_value = 1 will add 11)
+2. iterate over the arrays within the hand.
+* if array[0] == 'ace', then add array[1][0 or 1]
+* else, add array[1]
+```ruby
+def add_card_values(hand)
+  total_value = 0
+
+  hand.each do |card|
+    total_value += card[0] == 'ace' ? 11 : card[1]
+  end
+
+  number_of_aces = hand.count { |card| card[0] == 'ace' }
+  while total_value > 21 && number_of_aces > 0
+    total_value -= 10
+    number_of_aces -= 1
+  end
+
+  total_value
+end
+```
+
+
+_Busted? method_
+1. Add up the values of the player's hand, which will be an array with nested arrays.
+2. Each nested array contains the card (a string) and a value (an integer); however, if the card is an ace, there will be two potential values nested within
+another array. When first adding the value, count the ace's value as 11
+3. If the total of the player's hand is more than 21, check to see if the player holds an ace. If the player holds an ace, add the values with the ace equal to 1.
+4. If less than or equal to 21, the method returns false.
+5. 
+
