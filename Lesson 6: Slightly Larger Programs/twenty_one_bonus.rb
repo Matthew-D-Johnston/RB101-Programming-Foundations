@@ -85,6 +85,7 @@ loop do
   player_score = 0
   dealer_score = 0
 
+# Welcome
   prompt("Welcome to Twenty-One!")
   prompt("First one to win 5 games wins the round.")
   puts ''
