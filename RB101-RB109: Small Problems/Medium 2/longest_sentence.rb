@@ -105,8 +105,6 @@ indices.each do |idx|
   start_idx = end_idx + 1
 end
 
-puts sentences[0]
-
 largest_sentence = sentences.max_by { |sentence| sentence.split.size }
 largest_sentence = largest_sentence.strip
 number_of_words = largest_sentence.split.size
