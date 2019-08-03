@@ -120,10 +120,3 @@ puts fibonacci_last(100_001)
 puts fibonacci_last(1_000_007)
 puts fibonacci_last(123456789)
 puts fibonacci_last(123456789987745)
-
-
-
-
-
-
-
